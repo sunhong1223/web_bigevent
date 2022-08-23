@@ -1,0 +1,8 @@
+lib 文件夹 => 第三方插件
+cropper 文件夹 => 图片裁剪的插件
+layui 文件夹 => 相当于 bootstrap 布局的插件。layui 更多是面向于后端开发者
+tinymce 文件夹 => 富文本编辑器插件
+bootstrap.css => 布局插件
+echarts.min.css => 图表插件
+jQuery => JavaScript 库
+template-web.js => 模板引擎
