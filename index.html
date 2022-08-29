@@ -4,9 +4,110 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>后台主页</title>
+    <!-- 导入 layui 的样式表 -->
+    <link rel="stylesheet" href="./assets/lib/layui/css/layui.css">
+    <!-- 导入第三方图标库 -->
+    <link rel="stylesheet" href="./assets/fonts/iconfont.css">
+    <!-- 导入自己的样式表 -->
+    <link rel="stylesheet" href="./assets/css/index.css">
 </head>
 <body>
-    
+    <!-- Layui镜像站 => 文档 => 页面元素 => 布局 => 右侧浮动目录 => 管理界面布局 => 复制body标签内的HTML结构 => 按需修改 -->
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo layui-hide-xs layui-bg-black">
+                <img src="./assets/images/logo.png" alt="">
+            </div>
+            <!-- 头部区域（可配合layui 已有的水平导航） -->
+            
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                    <a href="javascript:;" class="userinfo">
+                        <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">
+                        <!-- 用户未设置头像时，显示如下的span标签图像，具体效果见index.css文件设置的样式。头像上的文字即span标签包裹的文字为用户名首字母，这里先设置为A -->
+                        <span class="text-avatar">A</span>
+                        个人中心
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">基本资料</a></dd>
+                        <dd><a href="">更换头像</a></dd>
+                        <dd><a href="">重置密码</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+                    <!-- 阻止a链接默认跳转行为：href="javascript:;" -->
+                    <a href="javascript:;" id="btnLogout">
+                        <span class="iconfont icon-tuichu"></span>
+                        退出
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <div class="userinfo">
+                    <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">
+                    <!-- 用户未设置头像时，显示如下的span标签图像，具体效果见index.css文件设置的样式。头像上的文字即span标签包裹的文字为用户名首字母，这里先设置为A -->
+                    <span class="text-avatar">A</span>
+                    <span id="welcome">欢迎 ***</span>
+                </div>
+                <!-- 展开子菜单时，收缩全部兄弟菜单子菜单：对导航元素结构设定可选属性和CSS类名【Layui镜像站 => 文档 => 页面元素 => 导航 => 右侧浮动目录 => 导航基础属性 => 导航可选属性/类 => 属性名 lay-shrink => 值 all】 -->
+                <ul class="layui-nav layui-nav-tree" lay-shrink="all">
+                    <!-- 首页默认被选中：【Layui镜像站 => 文档 => 页面元素 => 导航 => 右侧浮动目录 => 水平导航 => 设定layui-this类名来实现某一项默认被选中】 -->
+                    <li class="layui-nav-item layui-this">
+                        <a href="./home/dashboard.html" target="fm"><span class="iconfont icon-home"></span>首页</a>
+                        <!-- a标签的href属性用来指定打开哪个网页；target属性用来指定在哪打开网页，其属性值设置为内容主体区域的iframe标签的name属性值，即可在iframe中打开网页 -->
+                    </li>
+                    <li class="layui-nav-item">
+                        <!-- 字体图标(iconfont-阿里巴巴矢量图宝库)：【导入 iconfont.css 文件 => 通过对一个内联元素（一般推荐用 span标签）设定 class="iconfont"，来定义一个图标，然后对元素加上图标对应的 font-class 即可显示出想要的图标 即 <span class="iconfont icon-xxx"></span> => 按需修改】 -->
+                        <a class="" href="javascript:;"><span class="iconfont icon-16"></span>文章管理</a>
+                        <dl class="layui-nav-child">
+                            <!-- 字体图标(layui)：【导入 layui 的样式表 => Layui镜像站 => 文档 => 页面元素 => 图标 => 通过对一个内联元素（一般推荐用 i标签）设定 class="layui-icon"，来定义一个图标，然后对元素加上图标对应的 font-class 即可显示出想要的图标 即 <i class="layui-icon layui-icon-face-smile"></i> => 按需修改】 -->
+                            <dd><a href="javascript:;"><i class="layui-icon layui-icon-app"></i>文章类别</a></dd>
+                            <dd><a href="javascript:;"><i class="layui-icon layui-icon-app"></i>文章列表</a></dd>
+                            <dd><a href="javascript:;"><i class="layui-icon layui-icon-app"></i>发表文章</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;"><span class="iconfont icon-user"></span>个人中心</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;"><i class="layui-icon layui-icon-app"></i>基本资料</a></dd>
+                            <dd><a href="javascript:;"><i class="layui-icon layui-icon-app"></i>更换头像</a></dd>
+                            <dd><a href="javascript:;"><i class="layui-icon layui-icon-app"></i>重置密码</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <!-- <iframe name="" src="" frameborder="0"></iframe> -->
+            <!-- iframe标签的name属性用来指定当前iframe的名称，iframe标签的src属性用来规定在iframe中显示的文档的URL -->
+            <!-- <a href="" target=""></a> -->
+            <!-- a链接的href属性用来指定打开哪个网页，a链接的target属性用来指定在哪里打开网页 -->
+            <!-- target属性值等于name属性值表示在name为target属性值的iframe中打开指定网页 -->
+            <iframe name="fm" src="./home/dashboard.html" frameborder="0"></iframe>
+            <!-- 设置iframe标签的name属性值为fm，a标签的target属性值也为fm，即可在点击a链接时在name为fm的iframe中打开a标签指定的网页。上面左侧导航区域的首页、文章管理、个人中心的3个a链接都需要设置它的target属性值为iframe标签的name属性值fm，即可在点击a链接时，在iframe中打开a链接指定的网页 -->
+            <!-- 一进入到index后台主页就在右侧显示首页对应的网页内容：iframe标签的src属性值设置为首页所在a标签的src属性值，既然一进入到index后台主页就显示首页对应的网页内容了，那么首页应该默认被选中。详见上面左侧导航区域的首页所在的li标签的设置 -->
+        </div>
+        
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © www.itheima.com - 黑马程序员
+        </div>
+    </div>
+
+        <!-- 导入 layui 的js文件 -->
+        <script src="./assets/lib/layui/layui.all.js"></script>
+        <!-- 导入 jQuery -->
+        <script src="./assets/lib/jquery.js"></script>
+        <!-- 导入自己封装的 baseAPI.js 文件 -->
+        <script src="./assets/js/baseAPI.js"></script>
+        <!-- 导入自己的js文件 -->
+        <script src="./assets/js/index.js"></script>
 </body>
 </html>
