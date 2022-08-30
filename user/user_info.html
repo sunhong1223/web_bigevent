@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 导入 layui 的样式 -->
+    <!-- <link rel="stylesheet" href="../assets/lib/layui/css/layui.css"> -->
+    <link rel="stylesheet" href="/assets/lib/layui/css/layui.css">
+    <!-- 导入自己的样式 -->
+    <link rel="stylesheet" href="../assets/css/user/user_info.css">
+</head>
+<body>
+    <!-- 卡片面板(如果网页采用的是默认的白色背景，不建议使用卡片面板)：【Layui镜像站 => 文档 => 页面元素 => 面板 => 右侧浮动目录 => 卡片面板 => 复制HTML结构，按需修改】 -->
+    <div class="layui-card">
+        <div class="layui-card-header">修改用户信息</div>
+        <div class="layui-card-body">
+            <!-- form 表单：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制第一个文本框的HTML结构，按需修改】 -->
+            <!-- 表单赋值：【语法：form.val('filter', object) 其中 filter 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值。filter 可自定义，这里定义为 formUserInfo 详见 user_info.js 文件】 -->
+            <form class="layui-form" lay-filter="formUserInfo">
+                <!-- 隐藏域：更新用户的基本信息后，点击 提交修改 按钮，同时调用 API 接口，请求体中需配置 id、nickname、email 3个参数【详见md接口文档】，页面表单中有 nickname、email 2个参数，但是 id 在页面表单中没有，点击 提交修改 按钮无法获取到 id 。可以在表单中添加一个隐藏域，隐藏域在页面中对于用户是不可见的。调用 form.val() 快速为表单数据项赋值时，除了会给登录名称、用户昵称、用户邮箱赋值，还会给 name="id" 的隐藏域赋值，因为隐藏域也有一个 value 属性 -->
+                <input type="hidden" name="id" value="">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">登录名称</label>
+                    <div class="layui-input-block">
+                        <!-- 修改 input 标签的 name 属性值为 username -->
+                        <input type="text" name="username" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" readonly>
+                        <!-- readonly 属性规定输入字段为只读。 -->
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户昵称</label>
+                    <div class="layui-input-block">
+                        <!-- 修改 input 标签的 name 属性值为 nickname -->
+                        <input type="text" name="nickname" required  lay-verify="required|nickname" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <!-- 表单验证：Layui镜像站 => 文档 => 内置模块 => 表单 => 右侧浮动目录 => 验证 => 表单的验证只需要在表单元素上加上 lay-verify="" 属性值即可【要想属性 lay-verify="" 生效，必须在网页中导入layui的js文件】 => 预设元素属性 => 查看属性 lay-verify 对应的属性值 => 其中属性值 required 表示 必填项，即不能为空。但是内置的校验规则中没有用户昵称，所以选择自定义值，点击详见表单验证 => 自定义验证规则... => 见user_info.js文件 => 自定义验证规则后，把 key (这里指的是user_info.js文件中自定义的 nickname 校验规则)赋值给输入框的 lay-verify 属性即可。lay-verify 属性如果有多个属性值(多条规则的验证)时，多个属性值(多条规则的验证)之间用|分隔 -->
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户邮箱</label>
+                    <div class="layui-input-block">
+                        <!-- 修改 input 标签的 name 属性值为 email -->
+                        <input type="text" name="email" required  lay-verify="required|email" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <!-- layui 中已经内置了邮箱的校验规则，直接在 lay-verify 属性值中加上 email 即可，多个属性值(多条规则的验证)之间用|分隔 -->
+                    </div>
+                </div>
+                <!-- 提交修改 和 重置 按钮：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制 立即提交 和 重置 按钮的HTML结构，按需修改】 -->
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">提交修改</button>
+                        <button type="reset" class="layui-btn layui-btn-primary" id="btnReset">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 导入 layui 的js文件 -->
+    <script src="/assets/lib/layui/layui.all.js"></script>
+    <!-- 导入 jQuery -->
+    <script src="/assets/lib/jquery.js"></script>
+    <!-- 导入 baseAPI.js -->
+    <script src="/assets/js/baseAPI.js"></script>
+    <!-- 导入自己的 js -->
+    <script src="/assets/js/user/user_info.js"></script>
+</body>
+</html>

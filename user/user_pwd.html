@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 导入 layui 的样式 -->
+    <link rel="stylesheet" href="/assets/lib/layui/css/layui.css">
+    <!-- 导入自己的样式表 -->
+    <link rel="stylesheet" href="/assets/css/user/user_pwd.css">
+</head>
+<body>
+    <!-- 卡片面板(如果网页采用的是默认的白色背景，不建议使用卡片面板)：【Layui镜像站 => 文档 => 页面元素 => 面板 => 右侧浮动目录 => 卡片面板 => 复制HTML结构，按需修改】 -->
+    <div class="layui-card">
+        <div class="layui-card-header">修改密码</div>
+        <div class="layui-card-body">
+          <!-- form 表单：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制第一个文本框的HTML结构，按需修改】 -->
+          <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">原密码</label>
+                <div class="layui-input-block">
+                    <!-- 修改 input 标签的 type 属性值为 password；修改 input 标签的 name 属性值为 oldPwd；修改 input 标签的 placeholder 属性值为 请输入原密码 -->
+                    <input type="password" name="oldPwd" required  lay-verify="required|pwd" placeholder="请输入原密码" autocomplete="off" class="layui-input">
+                    <!-- 表单验证：Layui镜像站 => 文档 => 内置模块 => 表单 => 右侧浮动目录 => 验证 => 表单的验证只需要在表单元素上加上 lay-verify="" 属性值即可【要想属性 lay-verify="" 生效，必须在网页中导入layui的js文件】 => 预设元素属性 => 查看属性 lay-verify 对应的属性值 => 其中属性值 required 表示 必填项，即不能为空。但是内置的校验规则中没有密码，所以选择自定义值，点击详见表单验证 => 自定义验证规则... => 见user_pwd.js文件 => 自定义验证规则后，把 key (这里指的是user_pwd.js文件中自定义的 pwd 校验规则)赋值给原密码框的 lay-verify 属性即可。lay-verify 属性如果有多个属性值(多条规则的验证)时，多个属性值(多条规则的验证)之间用|分隔 -->
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">新密码</label>
+                <div class="layui-input-block">
+                    <!-- 修改 input 标签的 type 属性值为 password；修改 input 标签的 name 属性值为 newPwd；修改 input 标签的 placeholder 属性值为 请输入新密码 -->
+                    <input type="password" name="newPwd" required  lay-verify="required|pwd|samePwd" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+                    <!-- 表单验证：Layui镜像站 => 文档 => 内置模块 => 表单 => 右侧浮动目录 => 验证 => 表单的验证只需要在表单元素上加上 lay-verify="" 属性值即可【要想属性 lay-verify="" 生效，必须在网页中导入layui的js文件】 => 预设元素属性 => 查看属性 lay-verify 对应的属性值 => 其中属性值 required 表示 必填项，即不能为空。但是内置的校验规则中没有密码，所以选择自定义值，点击详见表单验证 => 自定义验证规则... => 见user_pwd.js文件 => 自定义验证规则后，把 key (这里指的是user_pwd.js文件中自定义的 pwd 和 samePwd 校验规则)赋值给新密码框的 lay-verify 属性即可。lay-verify 属性如果有多个属性值(多条规则的验证)时，多个属性值(多条规则的验证)之间用|分隔 -->
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认新密码</label>
+                <div class="layui-input-block">
+                    <!-- 修改 input 标签的 type 属性值为 password；修改 input 标签的 name 属性值为 rePwd；修改 input 标签的 placeholder 属性值为 请再次确认密码 -->
+                    <input type="password" name="rePwd" required  lay-verify="required|pwd|rePwd" placeholder="请再次确认密码" autocomplete="off" class="layui-input">
+                    <!-- 表单验证：Layui镜像站 => 文档 => 内置模块 => 表单 => 右侧浮动目录 => 验证 => 表单的验证只需要在表单元素上加上 lay-verify="" 属性值即可【要想属性 lay-verify="" 生效，必须在网页中导入layui的js文件】 => 预设元素属性 => 查看属性 lay-verify 对应的属性值 => 其中属性值 required 表示 必填项，即不能为空。但是内置的校验规则中没有密码，所以选择自定义值，点击详见表单验证 => 自定义验证规则... => 见user_pwd.js文件 => 自定义验证规则后，把 key (这里指的是user_pwd.js文件中自定义的 pwd 和 rePwd 校验规则)赋值给确认新密码框的 lay-verify 属性即可。lay-verify 属性如果有多个属性值(多条规则的验证)时，多个属性值(多条规则的验证)之间用|分隔 -->
+                </div>
+            </div>
+            <!-- 修改密码 和 重置 按钮：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制 立即提交 和 重置 按钮的HTML结构，按需修改】 -->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">修改密码</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" id="btnReset">重置</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+
+    <!-- 导入 layui 的js文件 -->
+    <script src="/assets/lib/layui/layui.all.js"></script>
+    <!-- 导入 jQuery -->
+    <script src="/assets/lib/jquery.js"></script>
+    <!-- 导入 baseAPI.js -->
+    <script src="/assets/js/baseAPI.js"></script>
+    <!-- 导入自己的 js -->
+    <script src="/assets/js/user/user_pwd.js"></script>
+</body>
+</html>
