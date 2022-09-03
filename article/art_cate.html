@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 导入 layui 的样式 -->
+    <link rel="stylesheet" href="/assets/lib/layui/css/layui.css">
+    <!-- 导入自己的样式 -->
+    <link rel="stylesheet" href="/assets/css/article/art_cate.css">
+</head>
+<body>
+    <!-- 卡片面板(如果网页采用的是默认的白色背景，不建议使用卡片面板)：【Layui镜像站 => 文档 => 页面元素 => 面板 => 右侧浮动目录 => 卡片面板 => 复制HTML结构，按需修改】 -->
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <span>文章类别管理</span>
+            <!-- 按钮：【Layui镜像站 => 文档 => 页面元素 => 按钮 => 右侧浮动目录 => 用法 => 一个标准的按钮 => 复制HTML结构，按需修改】 -->
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="btnAddCate">添加类别</button>
+            <!-- 复制主题按钮中的 百搭 的类名 layui-btn-normal，修改按钮颜色为蓝色；复制尺寸按钮中的 小型 的类名 layui-btn-sm，修改按钮尺寸 -->
+        </div>
+        <div class="layui-card-body">
+            <!-- 表格：【Layui镜像站 => 文档 => 页面元素 => 表格 => 右侧浮动目录 => 常规用法 => 复制HTML结构，按需修改】 -->
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <!-- <col> 表示 列宽 自适应 -->
+                    <col width="200">
+                    <!-- <col width="200"> 表示 列宽 200px -->
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>分类名称</th>
+                        <th>分类别名</th>
+                        <th>操作</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <!-- 
+                    <tr>
+                        <td>贤心</td>
+                        <td>2016-11-29</td>
+                        <td>人生就像是一场修行</td>
+                    </tr>
+                    <tr>
+                        <td>许闲心</td>
+                        <td>2016-11-28</td>
+                        <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+                    </tr> 
+                    -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- art-template模板引擎的基本使用：
+        1. 导入 art-template
+        2. 定义数据
+        3. 定义模板
+        4. 调用 template 函数
+        5. 渲染 HTML 结构 -->
+
+    <!-- 3. 定义文章分类表格数据的模板 -->
+    <script type="text/html" id="tpl-table">
+        <!-- 循环输出 -->
+        {{each data}}
+        <!-- data 为请求获取文章分类列表时服务器返回的数据res中的一个属性，是个数组 -->
+        <tr>
+            <td>{{$value.name}}</td>
+            <td>{{$value.alias}}</td>
+            <!-- $value 指的是循环项(data数组中的每一项) -->
+            <td>
+                <!-- 按钮：【Layui镜像站 => 文档 => 页面元素 => 按钮 => 右侧浮动目录 => 用法 => 一个标准的按钮 => 复制HTML结构，按需修改】 -->
+                <button type="button" class="layui-btn layui-btn-xs btn-edit" data-id="{{$value.Id}}">编辑</button>
+                <!-- data-id 为自定义属性，Id 为请求获取文章分类列表时服务器返回的数据res中的一个属性data(是个数组)中的每个对象中的一个属性，详见控制台打印的请求获取文章分类列表时服务器返回的数据res。当点击 编辑 按钮时，获取到对应的Id，从而获取到对应Id的数据(分类名称和分类别名) -->
+                <button type="button" class="layui-btn layui-btn-danger layui-btn-xs btn-delete" data-id="{{$value.Id}}">删除</button>
+                <!-- data-id 为自定义属性，Id 为请求获取文章分类列表时服务器返回的数据res中的一个属性data(是个数组)中的每个对象中的一个属性，详见控制台打印的请求获取文章分类列表时服务器返回的数据res。当点击 删除 按钮时，获取到对应的Id，从而获取到对应Id的数据(分类名称和分类别名)进行删除 -->
+                <!-- 复制主题按钮中的 警告 的类名 layui-btn-danger，修改 删除 按钮颜色为橘色；复制尺寸按钮中的 迷你 的类名 layui-btn-xs，修改 编辑 和 删除 按钮尺寸为迷你 -->
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+
+    <!-- 定义点击 添加类别 按钮时网页弹出层--页面层的模板 -->
+    <script type="text/html" id="dialog-add">
+        <!-- form 表单：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制第一个文本框的HTML结构，按需修改】 -->
+        <form class="layui-form" id="form-add">
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类名称</label>
+                <div class="layui-input-block">
+                    <!-- API 接口文档中关于新增文章分类的说明中请求体应包含 name 和 alias 两个参数，所以将分类名称的文本输入框name属性值定义为name。因为 name 属性用于对提交到服务器后的表单数据进行标识，只有设置了 name 属性的表单元素才能在提交表单时传递它们的值 -->
+                    <input type="text" name="name" required  lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类别名</label>
+                <div class="layui-input-block">
+                    <!-- API 接口文档中关于新增文章分类的说明中请求体应包含 name 和 alias 两个参数，所以将分类别名的文本输入框name属性值定义为alias。因为 name 属性用于对提交到服务器后的表单数据进行标识，只有设置了 name 属性的表单元素才能在提交表单时传递它们的值 -->
+                    <input type="text" name="alias" required  lay-verify="required" placeholder="请输入分类别名" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <!-- 确认添加 和 重置 按钮：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制 立即提交 和 重置 按钮的HTML结构，按需修改】 -->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">确认添加</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </script>
+
+
+    <!-- 定义点击 编辑 按钮时网页弹出层--页面层的模板【复制上面 定义点击 添加类别 按钮时网页弹出层--页面层的模板 的代码按需修改】 -->
+    <script type="text/html" id="dialog-edit">
+        <!-- form 表单：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制第一个文本框的HTML结构，按需修改】 -->
+        <!-- 表单赋值：【语法：form.val('filter', object) 其中 filter 即 class="layui-form" 所在元素 form 的属性 lay-filter="" 对应的值。filter 可自定义，这里定义为 form-edit 详见 art_cate.js 文件】 -->
+        <form class="layui-form" id="form-edit" lay-filter="form-edit">
+            <!-- 隐藏域，保存 Id 的值：编辑文章分类列表后，点击 确认修改 按钮，同时调用 API 接口根据Id更新文章分类数据，请求体中需配置 Id、name、alias 3个参数【详见API接口文档中的根据Id更新文章分类数据】，页面中 编辑 按钮 的弹出层的表单中有 name、alias 2个参数，但是 Id 在 编辑 按钮的弹出层的表单中没有，点击 确认修改 按钮无法获取到 Id 。需要事先在 编辑 按钮的弹出层的表单中保存对应的 Id 值，可以在 编辑 按钮的弹出层的表单中添加一个隐藏域，隐藏域在页面中对于用户是不可见的。调用 form.val() 快速为表单数据项赋值时，除了会给分类名称、分类别名赋值，还会给 name="Id" 的隐藏域赋值，因为隐藏域也有一个 value 属性 -->
+            <input type="hidden" name="Id" value="">
+            <!-- 注意：name ="Id"中 Id 的大小写 -->
+            <!-- ！！！！！！！name 属性规定 input 元素的名称。name 属性用于对提交到服务器后的表单数据进行标识，或者在客户端通过 JavaScript 引用表单数据。只有设置了 name 属性的表单元素才能在提交表单时传递它们的值 -->
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类名称</label>
+                <div class="layui-input-block">
+                    <!-- API 接口文档中关于根据Id更新文章分类数据的说明中请求体应包含Id、name和 alias 3个参数，所以将分类名称的文本输入框name属性值定义为name。因为 name 属性用于对提交到服务器后的表单数据进行标识，只有设置了 name 属性的表单元素才能在提交表单时传递它们的值 -->
+                    <input type="text" name="name" required  lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类别名</label>
+                <div class="layui-input-block">
+                    <!-- API 接口文档中关于根据Id更新文章分类数据的说明中请求体应包含Id、name和 alias 3个参数，所以将分类别名的文本输入框name属性值定义为alias。因为 name 属性用于对提交到服务器后的表单数据进行标识，只有设置了 name 属性的表单元素才能在提交表单时传递它们的值 -->
+                    <input type="text" name="alias" required  lay-verify="required" placeholder="请输入分类别名" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <!-- 确认修改 按钮：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制 立即提交 按钮的HTML结构，按需修改】 -->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">确认修改</button>
+                </div>
+            </div>
+        </form>
+    </script>
+
+
+    <!-- 导入 layui 的js文件 -->
+    <script src="/assets/lib/layui/layui.all.js"></script>
+    <!-- 导入 jQuery -->
+    <script src="/assets/lib/jquery.js"></script>
+    <!-- 导入自己封装的 baseAPI.js 文件 -->
+    <script src="/assets/js/baseAPI.js"></script>
+    <!-- 1. 导入模板引擎 -->
+    <script src="/assets/lib/template-web.js"></script>
+    <!-- 导入自己的js文件 -->
+    <script src="/assets/js/article/art_cate.js"></script>
+</body>
+</html>

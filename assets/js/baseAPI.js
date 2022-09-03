@@ -3,9 +3,9 @@
 $.ajaxPrefilter(function (options) { // jQuery === $
     // options 请求选项
     // console.log(options.url)   // 在登录页面输入用户名和地址，点击登录按钮，打开谷歌调试面板，切换到console控制台面板，输出结果为 /api/login 是具体的路径，不带根路径
-    // 在发起真正的 Ajax 请求之前，统一拼接请求的根路径 【请求根路径为 http://www.liulongbin.top:3007】
-    options.url = 'http://www.liulongbin.top:3007' + options.url
-    console.log(options.url)   // 在登录页面输入用户名和地址，点击登录按钮，打开谷歌调试面板，切换到console控制台面板，输出结果为 http://www.liulongbin.top:3007/api/login 页面立即跳转到后台首页
+    // 在发起真正的 Ajax 请求之前，统一拼接请求的根路径 【请求根路径为 http://api-breakingnews-web.itheima.net】
+    options.url = 'http://api-breakingnews-web.itheima.net' + options.url
+    console.log(options.url)   // 在登录页面输入用户名和地址，点击登录按钮，打开谷歌调试面板，切换到console控制台面板，输出结果为 http://api-breakingnews-web.itheima.net/api/login 页面立即跳转到后台首页
 
 
     // 统一为需要访问权限的接口设置 headers 请求头【以 /my 开头的请求路径，需要在请求头中携带 Authorization 身份认证字段，才能正常访问成功】

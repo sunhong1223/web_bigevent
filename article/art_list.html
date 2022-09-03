@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 导入 layui 的样式 -->
+    <link rel="stylesheet" href="/assets/lib/layui/css/layui.css">
+    <!-- 导入自己的样式 -->
+    <link rel="stylesheet" href="/assets/css/article/art_list.css">
+</head>
+<body>
+    <!-- 卡片面板(如果网页采用的是默认的白色背景，不建议使用卡片面板)：【Layui镜像站 => 文档 => 页面元素 => 面板 => 右侧浮动目录 => 卡片面板 => 复制HTML结构，按需修改】 -->
+    <div class="layui-card">
+        <div class="layui-card-header">文章列表</div>
+        <div class="layui-card-body">
+            <!-- 筛选区域 -->
+            <!-- form 表单：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制第一个文本框的HTML结构，按需修改】 -->
+            <form class="layui-form" id="form-search">
+                <!-- 一行显示 class="layui-inline"：定义外层行内【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 组装行内表单 => class="layui-inline"：定义外层行内】 -->
+                <div class="layui-form-item layui-inline">
+                    <!-- 下拉选择框：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 下拉选择框 => 复制第一个下拉选择框的HTML结构，按需修改】 -->
+                    <select name="cate_id">
+                    <!-- select 标签的 name 属性值设置为 cate_id 与获取文章的列表数据的请求体中的参数保持一致，为后面为 id 为 form-search 的form表单绑定 submit 事件提供便利 -->
+                        <!-- <option value="">所有分类</option> -->
+                        <!-- <option value="010">北京</option> -->
+                        <!-- <option value="021">上海</option> -->
+                        <!-- <option value="0571">杭州</option> -->
+                    </select>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <!-- 下拉选择框：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 下拉选择框 => 复制第一个下拉选择框的HTML结构，按需修改】 -->
+                    <select name="state">
+                    <!-- select 标签的 name 属性值设置为 state 与获取文章的列表数据的请求体中的参数保持一致，为后面为 id 为 form-search 的form表单绑定 submit 事件提供便利 -->
+                        <option value="">所有状态</option>
+                        <option value="已发布">已发布</option>
+                        <option value="草稿">草稿</option>
+                        <!-- 选中的是属性 value 的值，option 开始和结束标签包裹的为显示的内容 -->
+                    </select>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <!-- 筛选 按钮：【Layui镜像站 => 文档 => 页面元素 => 表单 => 右侧浮动目录 => 小赌为快 => 复制 立即提交 按钮的HTML结构，按需修改】 -->
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">筛选</button>
+                </div>
+            </form>
+            <!-- 筛选区域 -->
+
+
+            <!-- 列表区域 -->
+            <!-- 表格：【Layui镜像站 => 文档 => 页面元素 => 表格 => 右侧浮动目录 => 常规用法 => 复制HTML结构，按需修改】 -->
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <!-- <col> 表示 列宽 自适应 -->
+                    <col width="150">
+                    <col width="180">
+                    <col width="150">
+                    <col width="150">
+                    <!-- <col width="150"> 表示 列宽 150px -->
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>文章标题</th>
+                        <th>分类</th>
+                        <th>发表时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <!-- 
+                    <tr>
+                        <td>贤心</td>
+                        <td>2016-11-29</td>
+                        <td>人生就像是一场修行</td>
+                        <td>人生就像是一场修行</td>
+                        <td>人生就像是一场修行</td>
+                    </tr>
+                    -->
+                </tbody>
+            </table>
+            <!-- 列表区域 -->
+
+
+            <!-- 分页区域 -->
+            <!-- 分页：【Layui镜像站https://layuion.com/ => 文档 => 内置模块 => 分页 => 右侧浮动目录 => 快速使用】 -->
+            <!-- 用于存放分页的容器 -->
+            <div id="pageBox"></div>
+            <!-- 分页区域 -->
+        </div>
+    </div>
+    
+    <!-- art-template模板引擎的基本使用：
+        1. 导入 art-template
+        2. 定义数据
+        3. 定义模板
+        4. 调用 template 函数
+        5. 渲染 HTML 结构 -->
+
+    <!-- 3. 定义文章表格数据的模板 -->
+    <script type="text/html" id="tpl-table">
+        <!-- 循环输出 -->
+        {{each data}}
+        <!-- data 为请求获取文章的列表数据时服务器返回的数据res中的一个属性，是个数组 -->
+        <tr>
+            <!-- $value 指的是循环项(data数组中的每一项) -->
+            <td>{{$value.title}}</td>
+            <td>{{$value.cate_name}}</td>
+            <td>{{$value.pub_date|dataFormat}}</td>
+            <!-- dateFormat 为时间美化时间的过滤器 -->
+            <td>{{$value.state}}</td>
+            <td>
+                <!-- 按钮：【Layui镜像站 => 文档 => 页面元素 => 按钮 => 右侧浮动目录 => 用法 => 一个标准的按钮 => 复制HTML结构，按需修改】 -->
+                <button type="button" class="layui-btn layui-btn-xs btn-edit" data-id="{{$value.Id}}">编辑</button>
+                <button type="button" class="layui-btn layui-btn-danger layui-btn-xs btn-delete" data-id="{{$value.Id}}">删除</button>
+                <!-- data-id 为自定义属性，Id 为请求获取文章的列表数据时服务器返回的数据res中的一个属性data(是个数组)中的每个对象中的一个属性，详见控制台打印的请求获取文章的列表数据时服务器返回的数据res。当点击 删除 按钮时，获取到对应的Id，从而获取到对应Id的一行数据进行删除 -->
+                <!-- 复制主题按钮中的 警告 的类名 layui-btn-danger，修改 删除 按钮颜色为橘色；复制尺寸按钮中的 迷你 的类名 layui-btn-xs，修改 编辑 和 删除 按钮尺寸为迷你 -->
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <!-- 定义所有分类的下拉选择框中的可选项的模板 -->
+    <script type="text/html" id="tpl-cate">
+        <option value="">所有分类</option>
+        <!-- 循环输出 -->
+        {{each data}}
+        <!-- data 为请求获取文章分类列表时服务器返回的数据res中的一个属性，是个数组 -->
+        <option value="{{$value.Id}}">{{$value.name}}</option>
+        <!-- $value 指的是循环项(data数组中的每一项) -->
+        <!-- 【详见API接口文档中的关于获取文章分类列表的说明。服务器返回的数据res中的属性data是个数组，包含多组数据对象，对象中包含Id、name等属性】 -->
+        {{/each}}
+    </script>
+
+
+    <!-- 导入 layui 的js文件 -->
+    <script src="/assets/lib/layui/layui.all.js"></script>
+    <!-- 导入 jQuery -->
+    <script src="/assets/lib/jquery.js"></script>
+    <!-- 导入自己封装的 baseAPI.js 文件 -->
+    <script src="/assets/js/baseAPI.js"></script>
+    <!-- 1. 导入模板引擎 -->
+    <script src="/assets/lib/template-web.js"></script>
+    <!-- 导入自己的js文件 -->
+    <script src="/assets/js/article/art_list.js"></script>
+</body>
+</html>
